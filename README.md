@@ -58,3 +58,4 @@ As you have noticed this repository is empty. To begin this assignment you must 
 ## Bonus
 
 - Add each timer to documentation (3pt)
+[https://prof-tejera.github.io/assignment-2-MannyAdumbire"](https://prof-tejera.github.io/assignment-2-MannyAdumbire)
