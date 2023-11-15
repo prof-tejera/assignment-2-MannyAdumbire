@@ -22,7 +22,6 @@ const Stopwatch = () => {
     setReset,
     minsLeft,
     secsLeft,
-    optionsRef,
   } = useTimer({
     minutesPerRound,
     secondsPerRound,
@@ -37,22 +36,14 @@ const Stopwatch = () => {
     // Calculate elapsed seconds.
     function getPassedSeconds() {
       const totalSecsPerRound = h.secsFromMinsSecs(
-        optionsRef.current.minutesPerRound,
-        optionsRef.current.secondsPerRound
+        minutesPerRound,
+        secondsPerRound
       );
       const totalSecsLeftRound = h.secsFromMinsSecs(minsLeft, secsLeft);
       return totalSecsPerRound - totalSecsLeftRound;
     }
-  }, [minsLeft, secsLeft, optionsRef]);
+  }, [minutesPerRound, secondsPerRound, minsLeft, secsLeft]);
 
-  // Update timer options.
-  useEffect(() => {
-    optionsRef.current = {
-      ...optionsRef.current,
-      minutesPerRound: minutesPerRound,
-      secondsPerRound: secondsPerRound,
-    };
-  }, [minutesPerRound, secondsPerRound, optionsRef]);
 
   const handleFastForward = () => {
     setFastForward(true);

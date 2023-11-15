@@ -17,18 +17,6 @@ export const useTimer = (opt) => {
   // The Intervals that progress the timer.
   const roundIntervalRef = useRef(null);
 
-  // Set default values for the timer, or use the provided ones.
-  const defaultOpts = {
-    minutesPerRound: opt.minutesPerRound || 0,
-    secondsPerRound: opt.secondsPerRound || 0,
-    minutesRest: opt.minutesRest || 0,
-    secondsRest: opt.secondsRest || 0,
-    roundsTotal: opt.roundsTotal || 1,
-  };
-
-  const options = useRef(defaultOpts);
-  // TODO Why does calling setOptions({...x}) here lead to infinite loop/render with useState(defaultOpts)?
-
   // Logic for rounds.
   useEffect(() => {
     const timerFrequency = 250;
@@ -44,6 +32,26 @@ export const useTimer = (opt) => {
       fastForwardFn();
       setFastForward(false);
     }
+  // Reset the timer.
+  function resetFn() {
+    setIsRunning(false);
+    setIsRest(false);
+    setFastForward(false);
+    setRoundNumber(1);
+    msLeft.current = 0;
+    setSecsLeft(opt.secondsPerRound);
+    setMinsLeft(opt.minutesPerRound);
+  }
+  // Fast forward the timer.
+  function fastForwardFn() {
+    setIsRunning(false);
+    setFastForward(false);
+    setIsRest(true);
+    msLeft.current = 0;
+    setRoundNumber(opt.roundsTotal);
+    setSecsLeft(0);
+    setMinsLeft(0);
+  }
     // If the timer isn't running or it's a rest period.
     if (!isRunning) {
       // cleanup the Interval
@@ -57,8 +65,8 @@ export const useTimer = (opt) => {
         if (!msLeft.current) {
           // get the total number of ms for the round.
           msLeft.current = h.msFromMinsSecs(
-            options.current.minutesPerRound,
-            options.current.secondsPerRound
+            opt.minutesPerRound,
+            opt.secondsPerRound
           );
         } 
         let [minsLeft, secsLeft] = h.minsSecsFromMs(msLeft.current);
@@ -72,26 +80,26 @@ export const useTimer = (opt) => {
           }
         } else {
           // Are there still rounds left?
-          if (roundNumber < options.current.roundsTotal) {
+          if (roundNumber < opt.roundsTotal) {
             // Is there a rest period?
             if (
-              (options.current.minutesRest || options.current.secondsRest) &&
+              (opt.minutesRest || opt.secondsRest) &&
               !isRest
             ) {
               // Initiate the rest period.
-              setSecsLeft(options.current.secondsRest);
-              setMinsLeft(options.current.minutesRest);
+              setSecsLeft(opt.secondsRest);
+              setMinsLeft(opt.minutesRest);
               msLeft.current = h.msFromMinsSecs(
-                options.current.minutesRest,
-                options.current.secondsRest
+                opt.minutesRest,
+                opt.secondsRest
               );
               setIsRest(true);
             } else {
               // Go to the next round.
               setRoundNumber((prev) => prev + 1);
               msLeft.current = h.msFromMinsSecs(
-                options.current.minutesPerRound,
-                options.current.secondsPerRound
+                opt.minutesPerRound,
+                opt.secondsPerRound
               );
               setIsRest(false);
             }
@@ -108,7 +116,7 @@ export const useTimer = (opt) => {
         clearInterval(roundIntervalRef.current);
       }
     };
-  }, [isRunning, isRest, reset, fastForward, roundNumber]);
+  }, [isRunning, isRest, reset, fastForward, roundNumber, opt]);
 
   return {
     isRest: isRest,
@@ -116,30 +124,9 @@ export const useTimer = (opt) => {
     minsLeft: minsLeft,
     secsLeft: secsLeft,
     roundNumber: roundNumber,
-    optionsRef: options,
     setReset: setReset,
     setIsRunning: setIsRunning,
     setFastForward: setFastForward,
   };
 
-  // Reset the timer.
-  function resetFn() {
-    setIsRunning(false);
-    setIsRest(false);
-    setFastForward(false);
-    setRoundNumber(1);
-    msLeft.current = 0;
-    setSecsLeft(options.current.secondsPerRound);
-    setMinsLeft(options.current.minutesPerRound);
-  }
-  // Fast forward the timer.
-  function fastForwardFn() {
-    setIsRunning(false);
-    setFastForward(false);
-    setIsRest(false);
-    msLeft.current = 0;
-    setRoundNumber(options.current.roundsTotal);
-    setSecsLeft(0);
-    setMinsLeft(0);
-  }
 };

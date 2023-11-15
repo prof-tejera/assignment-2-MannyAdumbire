@@ -29,10 +29,11 @@ const Tabata = () => {
     minsLeft,
     secsLeft,
     isRest,
-    optionsRef,
   } = useTimer({
     minutesPerRound,
     secondsPerRound,
+    minutesRest,
+    secondsRest,
     roundsTotal,
   });
   useEffect(() => {
@@ -40,25 +41,6 @@ const Tabata = () => {
     setSecondsShown(h.formatSeconds(secsLeft));
     setMinutesShown(h.formatSeconds(minsLeft));
   }, [secsLeft, minsLeft]);
-
-  // Update timer options.
-  useEffect(() => {
-    optionsRef.current = {
-      ...optionsRef.current,
-      roundsTotal: roundsTotal,
-      minutesPerRound: minutesPerRound,
-      secondsPerRound: secondsPerRound,
-      minutesRest: minutesRest,
-      secondsRest: secondsRest,
-    };
-  }, [
-    minutesPerRound,
-    secondsPerRound,
-    minutesRest,
-    secondsRest,
-    roundsTotal,
-    optionsRef,
-  ]);
 
   const handleReset = () => {
     setReset(true);
@@ -94,7 +76,7 @@ const Tabata = () => {
     {
       label: "Secs",
       value: secondsPerRound,
-      propSetter: setSecondsPerRound,
+      propSetter:  setSecondsPerRound,
       disabled: isRunning
     },
     {

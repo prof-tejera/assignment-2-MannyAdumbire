@@ -25,7 +25,6 @@ const XY = () => {
     setReset,
     minsLeft,
     secsLeft,
-    optionsRef,
   } = useTimer({
     minutesPerRound,
     secondsPerRound,
@@ -37,25 +36,12 @@ const XY = () => {
     setMinutesShown(h.formatSeconds(minsLeft));
   }, [secsLeft, minsLeft]);
 
-  // Update timer options.
-  useEffect(() => {
-    optionsRef.current = {
-      ...optionsRef.current,
-      roundsTotal: roundsTotal,
-      minutesPerRound: minutesPerRound,
-      secondsPerRound: secondsPerRound,
-    };
-  }, [minutesPerRound, secondsPerRound, roundsTotal, optionsRef]);
-
   const handleReset = () => {
     setReset(true);
   };
   const handleFastForward = () => {
     setFastForward(true);
   };
-  // const handleFastForward = () => {
-  //   setFF(true);
-  // };
 
   // Start/Stop.
   function handleStartStop() {
@@ -82,7 +68,7 @@ const XY = () => {
     {
       label: "Secs",
       value: secondsPerRound,
-      propSetter: setSecondsPerRound,
+      propSetter:  setSecondsPerRound,
       disabled: isRunning,
     },
     {

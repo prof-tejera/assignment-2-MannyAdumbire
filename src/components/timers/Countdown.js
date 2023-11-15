@@ -22,7 +22,6 @@ const CountDown = () => {
     setReset,
     minsLeft,
     secsLeft,
-    optionsRef,
   } = useTimer({
     minutesPerRound,
     secondsPerRound,
@@ -32,15 +31,6 @@ const CountDown = () => {
     setSecondsShown(h.formatSeconds(secsLeft));
     setMinutesShown(h.formatSeconds(minsLeft));
   }, [secsLeft, minsLeft]);
-
-  // Update timer options.
-  useEffect(() => {
-    optionsRef.current = {
-      ...optionsRef.current,
-      minutesPerRound: minutesPerRound,
-      secondsPerRound: secondsPerRound,
-    };
-  }, [minutesPerRound, secondsPerRound, optionsRef]);
 
   const handleFastForward = () => {
     setFastForward(true);
