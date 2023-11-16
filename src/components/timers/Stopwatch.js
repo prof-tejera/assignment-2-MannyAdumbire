@@ -20,7 +20,6 @@ const Stopwatch = () => {
     setIsRunning,
     isRunning,
     setReset,
-    minsLeft,
     secsLeft,
   } = useTimer({
     minutesPerRound,
@@ -39,10 +38,9 @@ const Stopwatch = () => {
         minutesPerRound,
         secondsPerRound
       );
-      const totalSecsLeftRound = h.secsFromMinsSecs(minsLeft, secsLeft);
-      return totalSecsPerRound - totalSecsLeftRound;
+      return totalSecsPerRound - secsLeft;
     }
-  }, [minutesPerRound, secondsPerRound, minsLeft, secsLeft]);
+  }, [minutesPerRound, secondsPerRound, secsLeft]);
 
 
   const handleFastForward = () => {

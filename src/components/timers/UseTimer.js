@@ -7,11 +7,13 @@ export const useTimer = (opt) => {
   const [isRest, setIsRest] = useState(false);
   const [reset, setReset] = useState(true);
   const [fastForward, setFastForward] = useState(false);
-  const [secsLeft, setSecsLeft] = useState(0);
-  const [minsLeft, setMinsLeft] = useState(0);
   const [roundNumber, setRoundNumber] = useState(1);
+  const [secsLeft, setSecsLeft] = useState(0);
 
-  // Props that shouldn't cause rerender.
+  /** 
+   * Props that shouldn't cause rerender.
+   */ 
+  // Internal, high resolution, state of the timer.
   const msLeft = useRef(0);
 
   // The Intervals that progress the timer.
@@ -38,19 +40,17 @@ export const useTimer = (opt) => {
     setIsRest(false);
     setFastForward(false);
     setRoundNumber(1);
-    msLeft.current = 0;
-    setSecsLeft(opt.secondsPerRound);
-    setMinsLeft(opt.minutesPerRound);
+    msLeft.current = h.msFromMinsSecs(opt.minutesPerRound, opt.secondsPerRound);
+    setSecsLeft(h.secsFromMinsSecs(opt.minutesPerRound, opt.secondsPerRound));
   }
   // Fast forward the timer.
   function fastForwardFn() {
     setIsRunning(false);
     setFastForward(false);
     setIsRest(true);
-    msLeft.current = 0;
     setRoundNumber(opt.roundsTotal);
+    msLeft.current = 0;
     setSecsLeft(0);
-    setMinsLeft(0);
   }
     // If the timer isn't running or it's a rest period.
     if (!isRunning) {
@@ -69,14 +69,13 @@ export const useTimer = (opt) => {
             opt.secondsPerRound
           );
         } 
-        let [minsLeft, secsLeft] = h.minsSecsFromMs(msLeft.current);
         msLeft.current -= timerFrequency;
         // Update the displayed time left.
+        console.info(msLeft.current);
         if (msLeft.current >= timerFrequency) {
           // Only cause a rerender on the update frequestion, and on the last "tick".
-          if (msLeft.current % msUpdateFrequency === 0 || msLeft.current === timerFrequency) {
-            setMinsLeft(minsLeft);
-            setSecsLeft(secsLeft);
+          if (msLeft.current % msUpdateFrequency === 0) {
+            setSecsLeft( msLeft.current / 1000 );
           }
         } else {
           // Are there still rounds left?
@@ -87,8 +86,7 @@ export const useTimer = (opt) => {
               !isRest
             ) {
               // Initiate the rest period.
-              setSecsLeft(opt.secondsRest);
-              setMinsLeft(opt.minutesRest);
+              setSecsLeft(h.secsFromMinsSecs( opt.minutesRest ,opt.secondsRest));
               msLeft.current = h.msFromMinsSecs(
                 opt.minutesRest,
                 opt.secondsRest
@@ -119,14 +117,12 @@ export const useTimer = (opt) => {
   }, [isRunning, isRest, reset, fastForward, roundNumber, opt]);
 
   return {
-    isRest: isRest,
     isRunning: isRunning,
-    minsLeft: minsLeft,
     secsLeft: secsLeft,
-    roundNumber: roundNumber,
+    isRest: isRest,
     setReset: setReset,
+    roundNumber: roundNumber,
     setIsRunning: setIsRunning,
     setFastForward: setFastForward,
   };
-
 };

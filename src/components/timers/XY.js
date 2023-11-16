@@ -23,18 +23,20 @@ const XY = () => {
     roundNumber,
     isRunning,
     setReset,
-    minsLeft,
     secsLeft,
   } = useTimer({
     minutesPerRound,
     secondsPerRound,
     roundsTotal,
   });
+
   useEffect(() => {
+    let secsPart = h.secsPartFromSecs(secsLeft);
+    let minsPart = h.minsPartFromSecs(secsLeft);
     // Update displyed time left for round.
-    setSecondsShown(h.formatSeconds(secsLeft));
-    setMinutesShown(h.formatSeconds(minsLeft));
-  }, [secsLeft, minsLeft]);
+    setSecondsShown(h.formatSeconds(secsPart));
+    setMinutesShown(h.formatSeconds(minsPart));
+  }, [secsLeft]);
 
   const handleReset = () => {
     setReset(true);
