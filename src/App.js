@@ -34,7 +34,7 @@ const NoMatch = () => {
     <div>
       <h2>Nothing to see here!</h2>
       <p>
-        <Link to="/">Go to the home page</Link>
+        <Link to="/add">Go to the home page</Link>
       </p>
     </div>
   );
@@ -46,8 +46,9 @@ const App = () => {
         <Nav />
         <Routes>
           <Route path="/docs" element={<DocumentationView />} />
-          <Route path="/add" element={<TimersView />} />
-          <Route path="/" element={<TimersQueue />} />
+          <Route path="/" element={<TimersView />} />
+          <Route path="/add" element={<TimersQueue />} />
+          <Route path="*" element={<NoMatch />} />
         </Routes>
       </Router>
     </Container>

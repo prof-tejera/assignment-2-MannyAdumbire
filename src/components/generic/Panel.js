@@ -17,7 +17,6 @@ const Panel = ({ timers, buttons, children }) => {
         ))}
       </div>
       <div className="timer-actions">
-        (
         {buttons &&
           buttons.map((bType, idx) => (
             <Button
@@ -27,7 +26,6 @@ const Panel = ({ timers, buttons, children }) => {
               label={bType.label}
             />
           ))}
-        )
       </div>
       <div className="timer-display">{children}</div>
     </div>
