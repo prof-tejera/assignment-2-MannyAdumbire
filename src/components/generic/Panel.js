@@ -16,20 +16,20 @@ const Panel = ({ timers, buttons, children }) => {
           ></TimerInput>
         ))}
       </div>
-
       <div className="timer-actions">
-        {buttons.map((bType, idx) => (
-          <Button
-            key={`button-${idx}`}
-            type={bType.type}
-            onClick={bType.onClick}
-            label={bType.label}
-          />
-        ))}
+        (
+        {buttons &&
+          buttons.map((bType, idx) => (
+            <Button
+              key={`button-${idx}`}
+              type={bType.type}
+              onClick={bType.onClick}
+              label={bType.label}
+            />
+          ))}
+        )
       </div>
-      <div className="timer-display">
-        {children}
-        </div>
+      <div className="timer-display">{children}</div>
     </div>
   );
 };
