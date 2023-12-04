@@ -2,21 +2,10 @@ import React from "react";
 import TimerInput from "./TimerInput";
 import Button from "./Button";
 
-const Panel = ({ timers, buttons, children }) => {
+const Panel = ({  buttons, children }) => {
   return (
-    <div className={`timer-panel`}>
-      <div className="timer-inputs">
-        {timers.map((timer, idx) => (
-          <TimerInput
-            key={`timer-${idx}`}
-            label={timer.label}
-            value={timer.value}
-            propSetter={timer.propSetter}
-            disabled={timer.disabled}
-          ></TimerInput>
-        ))}
-      </div>
-      <div className="timer-actions">
+    <span className="timer-panel">
+      <span className="timer-actions">
         {buttons &&
           buttons.map((bType, idx) => (
             <Button
@@ -24,11 +13,11 @@ const Panel = ({ timers, buttons, children }) => {
               type={bType.type}
               onClick={bType.onClick}
               label={bType.label}
+              id = {`button-${bType.type}`}
             />
           ))}
-      </div>
-      <div className="timer-display">{children}</div>
-    </div>
+      </span>
+    </span>
   );
 };
 

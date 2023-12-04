@@ -23,6 +23,10 @@ export function secsFromMinsSecs(minutes, seconds) {
   return minutes * 60 + seconds;
 }
 
+export function minsFromSecs(seconds) {
+  return Math.trunc(seconds / 60);
+}
+
 // get the total number of minutes from seconds.
 export function minsPartFromMs(ms) {
   return Math.trunc(ms / 1000 / 60);
@@ -46,4 +50,9 @@ export function msFromMinsSecs(minutes, seconds) {
 // Get minutes and seconds from milliseconds.
 export function minsSecsFromMs(ms) {
   return [ minsPartFromMs(ms), secsPartFromMs(ms) ];
+}
+// Get minutes and seconds from milliseconds.
+export function minsSecsFromSecs(secs) {
+  secs = secs * 1000;
+  return [ minsPartFromMs(secs), secsPartFromMs(secs) ];
 }

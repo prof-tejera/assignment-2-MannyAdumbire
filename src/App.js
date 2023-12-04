@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 
 import DocumentationView from "./views/DocumentationView";
-import TimersView from "./views/TimersView";
-import TimersQueue from "./views/TimersQueue";
+import WorkoutView from "./views/WorkoutView";
+import WorkoutEdit from "./views/WorkoutEdit";
+import TimerQueueContextWrap from "./TimerQueueContext";
 
 const Container = styled.div`
-  background: #f0f6fb;
+  background: black;
   height: 100vh;
   overflow: auto;
+  text: white;
+  li {
+    list-style-type: none;
+    justify-content: flex-start;
+    padding: 0.5rem;
+  }
+  ul{
+    display: flex;
+    padding: 0;
+  }
+  color: white;
 `;
 
 const Nav = () => {
@@ -17,10 +29,10 @@ const Nav = () => {
     <nav>
       <ul>
         <li>
-          <Link to="/">Timers</Link>
+          <Link to="/edit">Edit</Link>
         </li>
         <li>
-          <Link to="/add">Add</Link>
+          <Link to="/">Workout</Link>
         </li>
         <li>
           <Link to="/docs">Documentation</Link>
@@ -29,27 +41,19 @@ const Nav = () => {
     </nav>
   );
 };
-const NoMatch = () => {
-  return (
-    <div>
-      <h2>Nothing to see here!</h2>
-      <p>
-        <Link to="/add">Go to the home page</Link>
-      </p>
-    </div>
-  );
-}
 const App = () => {
   return (
     <Container>
       <Router>
         <Nav />
-        <Routes>
-          <Route path="/docs" element={<DocumentationView />} />
-          <Route path="/" element={<TimersView />} />
-          <Route path="/add" element={<TimersQueue />} />
-          <Route path="*" element={<NoMatch />} />
-        </Routes>
+        <TimerQueueContextWrap>
+          <Routes>
+            <Route path="/docs" element={<DocumentationView />} />
+            <Route path="/" element={<WorkoutView />} />
+            <Route path="/add" element={<WorkoutEdit />} />
+            <Route path="*" element={<WorkoutEdit />} />
+          </Routes>
+        </TimerQueueContextWrap>
       </Router>
     </Container>
   );

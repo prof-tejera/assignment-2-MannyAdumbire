@@ -1,34 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useTimer } from "./UseTimer";
-import DisplayTime from "../generic/DisplayTime";
-import Panel from "../generic/Panel";
 import * as h from "../../utils/helpers.js";
-import "../../Timer.css";
+import { useTimer } from "./UseTimer";
+
+import TimerDisplay from "../generic/TimerDisplay";
 
 const timerType = "xy";
 
-const XY = () => {
+const XY = (props) => {
   // The displayed amount of time left in minutes & seconds.
   const [minutesShown, setMinutesShown] = useState("00");
   const [secondsShown, setSecondsShown] = useState("00");
 
-  const [minutesPerRound, setMinutesPerRound] = useState(0);
-  const [secondsPerRound, setSecondsPerRound] = useState(5);
-
-  const [roundsTotal, setRoundsTotal] = useState(2);
-
   const {
-    setFastForward,
-    setIsRunning,
-    roundNumber,
-    isRunning,
-    setReset,
+    status,
     secsLeft,
-  } = useTimer({
-    minutesPerRound,
-    secondsPerRound,
-    roundsTotal,
-  });
+    roundNumber,
+  } = useTimer(props.timerId);
 
   useEffect(() => {
     let secsPart = h.secsPartFromSecs(secsLeft);
@@ -38,59 +25,17 @@ const XY = () => {
     setMinutesShown(h.formatSeconds(minsPart));
   }, [secsLeft]);
 
-  const handleReset = () => {
-    setReset(true);
-  };
-  const handleFastForward = () => {
-    setFastForward(true);
-  };
-
-  // Start/Stop.
-  function handleStartStop() {
-    setIsRunning((prev) => {
-      return !prev;
-    });
-  }
-  const buttonTypes = [
-    { type: "fast-forward", onClick: handleFastForward, label: "FF" },
-    { type: "reset", onClick: handleReset, label: "RESET" },
-    {
-      type: isRunning ? "stop" : "start",
-      label: isRunning ? "STOP" : "START",
-      onClick: handleStartStop,
-    },
-  ];
-  const timerInputs = [
-    {
-      label: "Mins",
-      value: minutesPerRound,
-      propSetter: setMinutesPerRound,
-      disabled: isRunning,
-    },
-    {
-      label: "Secs",
-      value: secondsPerRound,
-      propSetter:  setSecondsPerRound,
-      disabled: isRunning,
-    },
-    {
-      label: "Rounds",
-      value: roundsTotal,
-      propSetter: setRoundsTotal,
-      disabled: isRunning,
-      required: true,
-    },
-  ];
 
   return (
-    <Panel className="timer-panel" timers={timerInputs} buttons={buttonTypes}>
-      <DisplayTime
+      <TimerDisplay
+        id={props.timerId}
         type={timerType}
-        round={roundNumber}
+        status={status}
         mins={minutesShown}
         secs={secondsShown}
+        round={roundNumber}
+        roundsTotal={props.roundsTotal}
       />
-    </Panel>
   );
 };
 

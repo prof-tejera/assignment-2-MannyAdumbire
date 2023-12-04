@@ -1,14 +1,12 @@
 import React from "react";
+import * as ws from "../../WorkoutStyles";
 
-const Button = ({ type, label, onClick }) => {
+const Button = ({ type, label, onClick , ...props}) => {
   // Keep the current mode in sync with the parent component that passed it in.
-  const btnClass = 'button-'+ type.toLowerCase();
-
-  // set the Label based on button type.
   return (
-    <div className={`${btnClass} button-timer`} onClick={onClick}>
+    <ws.Button onClick={onClick} {...props}>
         {label}
-    </div>
+    </ws.Button>
   );
 };
 export default Button;
