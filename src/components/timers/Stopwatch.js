@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { useTimer } from "./UseTimer";
 import TimerDisplay from "../generic/TimerDisplay";
-import { TimerQueueContext } from "../../TimerQueueContext.js";
-import Panel from "../generic/Panel";
 import * as h from "../../utils/helpers.js";
 
 const timerType = "stopwatch";

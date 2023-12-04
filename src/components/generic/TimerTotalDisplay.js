@@ -11,6 +11,12 @@ const TimerTotal = styled.div`
     border: 1px solid gray;
     font-size: medium;
     margin: 0rem 1rem;
+    display: inline-flex;
+    &::before {
+        display: inline;
+        content: "⌛";
+        margin-right: 0.5rem;
+    }
 `;
 
 const Text = styled.p`
@@ -25,7 +31,7 @@ const TimerTotalDisplay = (props) => {
     const [ mins, secs ] = h.minsSecsFromSecs(props.seconds)
     return (
       <TimerTotal >
-          <Text>⌛{props.title}</Text>
+          <Text>{props.title}</Text>
           <Text>
             {mins} mins{" "}
             {secs} secs

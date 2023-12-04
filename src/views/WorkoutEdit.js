@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {  useContext, useState } from "react";
 import styled from "styled-components";
 import * as ws from "../WorkoutStyles.js";
 
@@ -31,7 +31,7 @@ const timerComponents = {
 };
 
 const WorkoutEdit = () => {
-  const { timers, secondsTotal, addTimer, removeTimer } =
+  const { timers, secondsTotal, addTimer} =
     useContext(TimerQueueContext);
   // Start with empty to display only the times.
   const [timerType, setTimerType] = useState("");
@@ -196,7 +196,7 @@ const WorkoutEdit = () => {
           ></Button>
           <span style={{ fontSize: "1rem" }}>Add {timerType}</span>
           <TimerTotalDisplay
-            title="Total Workout Time"
+            title="Total Workout Time: "
             seconds={secondsTotal}
           />
         </ws.Container>

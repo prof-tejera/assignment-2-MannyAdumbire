@@ -15,7 +15,7 @@ const TimerQueueContextWrap = ({ children }) => {
 
   const timerQ = {
     isRunning,
-getRemainingTime,
+    getRemainingTime,
     setIsRunning,
     activeTimer,
     secondsTotal,
@@ -34,7 +34,7 @@ getRemainingTime,
       setIsRunning(true);
       const timer = timers.filter((t) => t.timerId === activeTimer)[0];
       // If the timer is missing, replace it.
-      if( !timer ) {
+      if (!timer) {
         setActiveTimer(timers[0]?.timerId);
       }
     } else if (status === "stopped") {
@@ -45,18 +45,18 @@ getRemainingTime,
     }
     function resetWorkout() {
       setStatus("stopped");
-      timers.map((timer) => {
+      timers.forEach((timer) => {
         timer.status = "ready";
       });
       setSecondsLeft(getRemainingTime(timers));
       setSecondsTotal(getTotalTimerTime(timers));
       setActiveTimer(timers[0] ? timers[0].timerId : null);
     }
-  }, [status, timers, setIsRunning]);
+  }, [status, timers, activeTimer, setIsRunning]);
 
   // Logic to add a timer and update the total times.
   function addTimer(timer) {
-    setTimers((tmrs)=>{
+    setTimers((tmrs) => {
       const updatedTimers = [...tmrs, timer];
       setSecondsLeft(getRemainingTime(updatedTimers));
       setSecondsTotal(getTotalTimerTime(updatedTimers));
@@ -78,7 +78,7 @@ getRemainingTime,
     });
     return total;
   }
-  
+
   // Get the total time for all timers that aren't completed.
   function getRemainingTime(tmrs) {
     // Loop through the timers and add up the total time.
@@ -99,7 +99,7 @@ getRemainingTime,
     if (activeTimer === null) {
       setStatus("reset");
     } else {
-      timers.map((timer, idx) => {
+      let updatedTimers = timers.map((timer, idx) => {
         if (timer.timerId === activeTimer) {
           timer.status = "completed";
           if (timers[idx + 1]) {
@@ -108,7 +108,9 @@ getRemainingTime,
             setStatus("reset");
           }
         }
+        return timer;
       });
+      setTimers(updatedTimers);
     }
   }
 

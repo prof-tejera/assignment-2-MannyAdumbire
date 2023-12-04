@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext} from "react";
 import styled from "styled-components";
 
 import * as ws from "../WorkoutStyles";
-import * as h from "../utils/helpers.js";
 import Button from "../components/generic/Button";
 import { TimerQueueContext } from "../TimerQueueContext";
 import TimerTotalDisplay from "../components/generic/TimerTotalDisplay.js";
@@ -17,7 +16,7 @@ const Timers = styled.div`
 
 
 const WorkoutView = (children) => {
-  const { timers, secondsLeft, removeTimer, setStatus, nextTimer, isRunning} =
+  const { timers, secondsLeft, setStatus, nextTimer, isRunning} =
     useContext(TimerQueueContext);
 
   const handleReset = () => {
@@ -57,7 +56,7 @@ const WorkoutView = (children) => {
           <Button key={`btn-${idx}`} {...btn} />
         ))}
       </ws.Container>
-      <TimerTotalDisplay title="Time Remaining" seconds={secondsLeft} />
+      <TimerTotalDisplay title="Time Left: " seconds={secondsLeft} />
       <TimersPanel timers={timers} />
     </Timers>
   );

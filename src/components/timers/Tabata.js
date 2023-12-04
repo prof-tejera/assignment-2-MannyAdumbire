@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTimer } from "./UseTimer";
 import TimerDisplay from "../generic/TimerDisplay";
-import Panel from "../generic/Panel";
 import * as h from "../../utils/helpers.js";
 import "../../Timer.css";
 
